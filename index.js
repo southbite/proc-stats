@@ -4,16 +4,26 @@ var util = require('util');
 
 module.exports = {
 	wincpu:null,
-	parseWinPS:function(val){
+	getMemoryUsage:function(){
 		var _memoryUsage = process.memoryUsage();
+
 		return {
-			memory: _memoryUsage.heapTotal + _memoryUsage.rss,
+			memory: _memoryUsage.rss,
 			memoryInfo:{
 				rss: _memoryUsage.rss,
-	        	vsize: _memoryUsage.heapTotal - _memoryUsage.rss
-			},
-			cpu:val.load
+				heapTotal:_memoryUsage.heapTotal,
+				heapUsed:_memoryUsage.heapUsed
+			}
 		};
+	},
+	parseWinPS:function(val){
+		var memoryUsage = this.getMemoryUsage();
+
+		console.log('windows memoryUsage', memoryUsage);
+
+		memoryUsage.cpu = val.load;
+
+		return memoryUsage;
 	},
 	parsePS:function(pid, output) {
 

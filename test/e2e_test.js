@@ -5,6 +5,20 @@ var libFolder = __dirname + sep + 'lib' + sep;
 
 describe('end to end test', function() {
 
+   it('gets just the memory usage', function(done) {
+
+    this.timeout(10000);
+   
+    var procStats = require('../index.js');
+
+    memoryUsage = procStats.getMemoryUsage();
+
+    console.log(memoryUsage);
+
+    done();
+
+  });
+
   it('gets process stats passing in parameters', function(done) {
 
     this.timeout(10000);
