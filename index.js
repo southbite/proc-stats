@@ -1,6 +1,5 @@
 var os = require('os');
 var platform = os.platform();
-var exec = require('child_process').exec;
 var util = require('util');
 
 module.exports = {
@@ -60,22 +59,25 @@ module.exports = {
 			     if(error) 
 			         return callback(error);
 			     
-			     
-			     
+			     console.log('parsing windows stats: ', arguments);
+
 			     callback(null, _this.parseWinPS(results));
 
 			});
+
+		}else{
+			
+			var exec = require('child_process').exec;
+			exec('ps -o "rss,vsize,pcpu" -p ' + pid, function(err, stdout, stderr) {
+		      if (err || stderr) return callback(err || stderr);
+
+		      try {
+		        callback(null, _this.parsePS(pid, stdout));
+		      } catch(ex) {
+		        callback(ex);
+		      }
+		    });
+
 		}
-
-		exec('ps -o "rss,vsize,pcpu" -p ' + pid, function(err, stdout, stderr) {
-	      if (err || stderr) return callback(err || stderr);
-
-	      try {
-	        callback(null, _this.parsePS(pid, stdout));
-	      } catch(ex) {
-	        callback(ex);
-	      }
-	    });
-
 	}
 }
