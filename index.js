@@ -19,7 +19,7 @@ module.exports = {
 	parseWindowsPS:function(output){
 		var memoryUsage = this.getMemoryUsage();
 
-		console.log('ouput: ', output);
+		console.log('output: ', output);
 
 		var found = output.replace(/[^\S\n]+/g, ':').replace(/\:\s/g, '|').split('|').filter(function(v) {
             return !!v;
@@ -42,7 +42,7 @@ module.exports = {
         
 		return memoryUsage;
 	},
-	parsePS:function(pid, output) {
+	parsePS:function(output) {
 
 	  var lines = output.trim().split('\n');
 	  if (lines.length !== 2) {
@@ -84,7 +84,7 @@ module.exports = {
 	            if(error !== null || stderr) return callback(error || stderr);
 	            if(!stdout) return callback('Cannot find results for provided arg: ' + pid, { load: 0, results: [] });
 	            
-	            callback(null, _this.parseWindowsPS(pid, stdout));
+	            callback(null, _this.parseWindowsPS(stdout));
 	        });
 
 		}else{
@@ -93,7 +93,7 @@ module.exports = {
 		      if (err || stderr) return callback(err || stderr);
 
 		      try {
-		        callback(null, _this.parsePS(pid, stdout));
+		        callback(null, _this.parsePS(stdout));
 		      } catch(ex) {
 		        callback(ex);
 		      }
