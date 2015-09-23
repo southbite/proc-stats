@@ -7,7 +7,7 @@ describe('end to end test', function() {
 
   it('gets process stats passing in parameters', function(done) {
 
-    this.timeout(3000);
+    this.timeout(10000);
    
     var procStats = require('../index.js');
 
@@ -25,7 +25,7 @@ describe('end to end test', function() {
 
   it('gets process stats, without passing in parameters', function(done) {
 
-    this.timeout(3000);
+    this.timeout(10000);
    
     var procStats = require('../index.js');
 
