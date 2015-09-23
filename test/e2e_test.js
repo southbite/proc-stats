@@ -13,9 +13,9 @@ describe('end to end test', function() {
 
     procStats.stats({}, function(e, result){
 
-      console.log(arguments);
-
       if (e) return done(e);
+
+      console.log(result);
 
       done();
 
@@ -31,9 +31,9 @@ describe('end to end test', function() {
 
     procStats.stats(function(e, result){
 
-       console.log(arguments);
-
       if (e) return done(e);
+
+      console.log(result);
 
       done();
 
@@ -50,6 +50,11 @@ describe('end to end test', function() {
     var interval = setInterval(function(){
 
       procStats.stats(function(e, result){
+
+        if (e){
+          clearInterval(interval);
+          return done(e);
+        }
 
         console.log(result);
         runAmounts++;

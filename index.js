@@ -5,11 +5,7 @@ var util = require('util');
 module.exports = {
 	wincpu:null,
 	parseWinPS:function(val){
-		var _memoryUsage = util.inspect(process.memoryUsage());
-
-		console.log('_memoryUsage: ', _memoryUsage);
-		console.log('val: ', val);
-
+		var _memoryUsage = process.memoryUsage();
 		return {
 			memory: _memoryUsage.heapTotal + _memoryUsage.rss,
 			memoryInfo:{
@@ -20,6 +16,7 @@ module.exports = {
 		};
 	},
 	parsePS:function(pid, output) {
+
 	  var lines = output.trim().split('\n');
 	  if (lines.length !== 2) {
 	    throw new Error('INVALID_PID');
@@ -61,9 +58,7 @@ module.exports = {
 			return _this.wincpu.findLoad(pid, function(error, results) {
 			     if(error) 
 			         return callback(error);
-			     
-			     console.log('parsing windows stats: ', arguments);
-
+			    
 			     callback(null, _this.parseWinPS(results));
 
 			});
