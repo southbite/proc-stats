@@ -1,5 +1,6 @@
 var os = require('os');
 var platform = os.platform();
+var exec = require('child_process').exec;
 
 module.exports = {
 	wincpu:null,
@@ -88,7 +89,6 @@ module.exports = {
 
 		}else{
 
-			var exec = require('child_process').exec;
 			exec('ps -o "rss,vsize,pcpu" -p ' + pid, function(err, stdout, stderr) {
 		      if (err || stderr) return callback(err || stderr);
 
