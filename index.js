@@ -1,6 +1,5 @@
 var os = require('os');
 var platform = os.platform();
-var util = require('util');
 
 module.exports = {
 	wincpu:null,
@@ -19,7 +18,7 @@ module.exports = {
 	parseWinPS:function(val){
 		var memoryUsage = this.getMemoryUsage();
 
-		console.log('windows memoryUsage', memoryUsage);
+		console.log('windows memoryUsage val', val);
 
 		memoryUsage.cpu = val.load;
 
