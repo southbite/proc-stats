@@ -17,6 +17,9 @@ module.exports = {
 		};
 	},
 	parseWindowsPS:function(output){
+
+		console.log('op: ', output);
+
 		var memoryUsage = this.getMemoryUsage();
 		var found = output.replace(/[^\S\n]+/g, ':').replace(/\:\s/g, '|').split('|').filter(function(v) {
             return !!v;
