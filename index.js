@@ -18,9 +18,6 @@ module.exports = {
 	},
 	parseWindowsPS:function(output){
 		var memoryUsage = this.getMemoryUsage();
-
-		console.log('output: ', output);
-
 		var found = output.replace(/[^\S\n]+/g, ':').replace(/\:\s/g, '|').split('|').filter(function(v) {
             return !!v;
         }).map(function(v) {

@@ -2,9 +2,7 @@
   "name": "proc-stats",
   "description": "gets usage stats for a process",
   "version": "0.0.1",
-  "dependencies": {
-    "windows-cpu": "^0.1.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "chai": "^3.2.0",
     "expect.js": "*",
