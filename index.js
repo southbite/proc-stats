@@ -16,7 +16,7 @@ module.exports = {
 			}
 		};
 	},
-	parseWinPS:function(output){
+	parseWindowsPS:function(output){
 		var memoryUsage = this.getMemoryUsage();
 
 		console.log('ouput: ', output);
