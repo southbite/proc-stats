@@ -3,7 +3,7 @@ proc-stats
 
 library for getting memory and cpu usage for windows, mac or linux - other os's are not supported. No production dependancies or compilation needed :)
 
-look at the unit tests to see how it is used. remember - you can pull out basic process memory stuff (rss, heapTotal, heapUsed) using process.memoryUsage() - this gives you the % CPU usage per process, and is you are using linux the vsize
+look at the unit tests to see how it is used. remember - you can pull out basic process memory stuff (rss, heapTotal, heapUsed) using process.memoryUsage() - this gives you the % CPU usage per process, and if you are using linux the vsize
 
 usage:
 ------
@@ -23,8 +23,6 @@ procStats.stats(function(e, result){
 	  cpu: 1.6 } //CPU USAGE
 
 	  windows:
-
-	  windows
 	  result looks like { memory: 23486464,
   		memoryInfo: { rss: 23486464, // resident set size
   						heapTotal: 16486912, 
