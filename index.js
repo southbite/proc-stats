@@ -15,13 +15,30 @@ module.exports = {
 			}
 		};
 	},
-	parseWinPS:function(val){
+	parseWinPS:function(output){
 		var memoryUsage = this.getMemoryUsage();
 
-		console.log('windows memoryUsage val', val);
+		console.log('ouput: ', output);
 
-		memoryUsage.cpu = val.load;
-
+		var found = output.replace(/[^\S\n]+/g, ':').replace(/\:\s/g, '|').split('|').filter(function(v) {
+            return !!v;
+        }).map(function(v) {
+            var data = v.split(':');
+            return {
+                pid: +data[0],
+                process: data[1],
+                load: +data[2]
+            };
+        });
+        
+        var totalLoad = 0;
+        
+        found.forEach(function(obj) {
+            totalLoad += obj.load;
+        });
+        
+        memoryUsage.cpu = totalLoad;
+        
 		return memoryUsage;
 	},
 	parsePS:function(pid, output) {
@@ -61,16 +78,13 @@ module.exports = {
 
 		if (platform == 'win32'){
 
-			if (!_this.wincpu)
-				_this.wincpu = require('windows-cpu');
-
-			return _this.wincpu.findLoad(pid, function(error, results) {
-			     if(error) 
-			         return callback(error);
-			    
-			     callback(null, _this.parseWinPS(results));
-
-			});
+			var cmd = "wmic path Win32_PerfFormattedData_PerfProc_Process get Name,PercentProcessorTime,IDProcess | findstr /i /c:" + pid;
+	        exec(cmd, function (error, stdout, stderr) {
+	            if(error !== null || stderr) return callback(error || stderr);
+	            if(!stdout) return callback('Cannot find results for provided arg: ' + pid, { load: 0, results: [] });
+	            
+	            callback(null, _this.parseWindowsPS(pid, stdout));
+	        });
 
 		}else{
 
