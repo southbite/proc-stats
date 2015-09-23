@@ -5,6 +5,21 @@ var libFolder = __dirname + sep + 'lib' + sep;
 
 describe('end to end test', function() {
 
+  var loadIntervalPtr;
+   var loadInterval = 10;
+
+  before(function(){
+
+    loadIntervalPtr = setInterval(function(){
+      var randomOpResult = ((Math.random() * Math.random()) * 100) % 10;
+    }, loadInterval);
+
+  });
+
+  after(function(){
+    clearInterval(loadIntervalPtr);
+  });
+
    it('gets just the memory usage', function(done) {
 
     this.timeout(10000);
