@@ -13,9 +13,9 @@ describe('end to end test', function() {
 
     procStats.stats({}, function(e, result){
 
-      if (e) return done(e);
+      console.log(arguments);
 
-      console.log(result);
+      if (e) return done(e);
 
       done();
 
@@ -31,9 +31,9 @@ describe('end to end test', function() {
 
     procStats.stats(function(e, result){
 
-      if (e) return done(e);
+       console.log(arguments);
 
-      console.log(result);
+      if (e) return done(e);
 
       done();
 
