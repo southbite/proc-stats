@@ -6,7 +6,7 @@ var libFolder = __dirname + sep + 'lib' + sep;
 describe('end to end test', function() {
 
   var loadIntervalPtr;
-   var loadInterval = 10;
+   var loadInterval = 1;
 
   before(function(){
 
