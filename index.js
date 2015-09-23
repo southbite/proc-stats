@@ -7,6 +7,9 @@ module.exports = {
 	parseWinPS:function(val){
 		var _memoryUsage = util.inspect(process.memoryUsage());
 
+		console.log('_memoryUsage: ', _memoryUsage);
+		console.log('val: ', val);
+
 		return {
 			memory: _memoryUsage.heapTotal + _memoryUsage.rss,
 			memoryInfo:{
@@ -66,7 +69,7 @@ module.exports = {
 			});
 
 		}else{
-			
+
 			var exec = require('child_process').exec;
 			exec('ps -o "rss,vsize,pcpu" -p ' + pid, function(err, stdout, stderr) {
 		      if (err || stderr) return callback(err || stderr);
