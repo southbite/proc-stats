@@ -43,7 +43,7 @@ describe('end to end test', function() {
 
    it('emits stats, n times', function(done) {
 
-    this.timeout(30000);
+    this.timeout(40000);
     var procStats = require('../index.js');
     var runAmounts = 0;
 
