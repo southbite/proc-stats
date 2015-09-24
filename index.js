@@ -16,11 +16,8 @@ module.exports = {
 			}
 		};
 	},
-	parseWindowsPS:function(output){
+	parseWindowsPS:function(output, memoryUsage){
 
-		console.log('op: ', output);
-
-		var memoryUsage = this.getMemoryUsage();
 		var found = output.replace(/[^\S\n]+/g, ':').replace(/\:\s/g, '|').split('|').filter(function(v) {
             return !!v;
         }).map(function(v) {
@@ -42,7 +39,7 @@ module.exports = {
         
 		return memoryUsage;
 	},
-	parsePS:function(output) {
+	parsePS:function(output, memoryUsage) {
 
 	  var lines = output.trim().split('\n');
 	  if (lines.length !== 2) {
@@ -53,14 +50,12 @@ module.exports = {
 	  var result = lines[1].match(matcher);
 
 	  if(result) {
-	    return {
-	      memory: parseInt(result[1]) * 1024,
-	      memoryInfo: {
-	        rss: parseFloat(result[1]) * 1024,
-	        vsize: parseFloat(result[2]) * 1024
-	      },
-	      cpu: parseFloat(result[3])
-	    };
+
+	  	memoryUsage.memoryInfo.vsize = parseFloat(result[2]) * 1024;
+	  	memoryUsage.cpu = parseFloat(result[3]);
+
+	  	return memoryUsage;
+
 	  } else {
 	    throw new Error('PS_PARSE_ERROR');
 	  }
@@ -77,6 +72,8 @@ module.exports = {
 		if (!pid)
 			pid = process.pid;
 
+		var memoryUsage = this.getMemoryUsage();
+
 		if (platform == 'win32'){
 
 			var cmd = "wmic path Win32_PerfFormattedData_PerfProc_Process get Name,PercentProcessorTime,IDProcess | findstr /i /c:" + pid;
@@ -84,7 +81,7 @@ module.exports = {
 	            if(error !== null || stderr) return callback(error || stderr);
 	            if(!stdout) return callback('Cannot find results for provided arg: ' + pid, { load: 0, results: [] });
 	            
-	            callback(null, _this.parseWindowsPS(stdout));
+	            callback(null, _this.parseWindowsPS(stdout, memoryUsage));
 	        });
 
 		}else{
@@ -93,7 +90,7 @@ module.exports = {
 		      if (err || stderr) return callback(err || stderr);
 
 		      try {
-		        callback(null, _this.parsePS(stdout));
+		        callback(null, _this.parsePS(stdout, memoryUsage));
 		      } catch(ex) {
 		        callback(ex);
 		      }
